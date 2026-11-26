@@ -34,6 +34,8 @@ Thumbs.db
 # 全コンペに適用：データ・提出結果・学習済みモデル
 data/
 submissions/
+# 元データに由来する分析画像はローカルにだけ保存する。
+analysis/
 **pycache**/
 *.pkl
 *.pickle

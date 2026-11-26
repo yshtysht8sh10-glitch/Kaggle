@@ -1,5 +1,23 @@
 # Titanic：決定木ベースライン
 
+## Exp001の決定木を分析する
+
+既存の仮想環境にrequirements.txtの依存ライブラリをインストールし、次を実行します。
+
+```powershell
+cd D:\working\kaggle\001_Titanic
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe visualize_tree.py
+```
+
+main.pyと同じ分割・前処理・モデル設定で、学習用712件から検証評価時点の木を再現します。訓練データ全体での再学習は行いません。深さ・ノード数・葉数・特徴量重要度・学習と検証の正解率を表示し、analysisフォルダーに以下を保存します。
+
+- exp001_tree_top3.png：根を1階層目とする上位3階層（深さ0〜2）。描画範囲のみ制限し、モデルの深さは変更しません。
+- exp001_tree_full.png：木全体。ラベルは画像を拡大して確認します。
+- exp001_feature_importance.png：不純度の減少に基づく特徴量重要度。
+
+木の条件が真なら左、偽なら右へ進みます。giniは分類の混ざり具合（0なら同一分類のみ）、samplesはそのノードの学習件数、valueは[死亡数, 生存数]、classは予測結果です。Sexの0は男性、1は女性です。重要度は因果関係を表すものではありません。分析画像はGit管理対象外で、再実行時は更新されます。main.py・実験台帳・提出CSVは変更しません。
+
 ## 目的・モデル
 
 乗客情報から生存（1）・死亡（0）を予測します。読みやすさを優先した初回実験001です。
