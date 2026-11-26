@@ -1,2 +1,2 @@
 experiment_id,date,experiment_name,model,parameters,features,train_accuracy,validation_accuracy,kaggle_score,parent_experiment,status,notes,git_commit,git_tag
-001,2026-11-26,DecisionTree_baseline,DecisionTreeClassifier,random_state=42、その他デフォルト,Pclass、Sex、Age、SibSp、Parch、Fare,0.9789,0.7598,0.72488,,submitted,初回ベースライン。学習用と検証用の正解率に21.91ポイントの差があり、過学習の傾向が見られる。,,titanic-exp001
+001,2026-11-26,DecisionTree_baseline,DecisionTreeClassifier,random_state=42、その他デフォルト,Pclass、Sex、Age、SibSp、Parch、Fare,0.9789,0.7598,0.72488,,submitted,初回ベースライン。学習用と検証用の正解率に21.91ポイントの差があり、過学習の傾向が見られる。,bfb8c13a2ec5d4e34f6d19ccb20002a33daa01b3,titanic-exp001
