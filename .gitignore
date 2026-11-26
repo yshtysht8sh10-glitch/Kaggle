@@ -1,0 +1,59 @@
+# Pythonキャッシュ・ビルド生成物
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# 仮想環境
+.venv/
+venv/
+env/
+.env/
+
+# 認証情報・ローカル設定
+.env
+.env.*
+.kaggle/
+kaggle.json
+access_token
+*credentials*.json
+*service-account*.json
+
+# エディター・一時ファイル
+.vscode/
+.idea/
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+
+# 全コンペに適用：データ・提出結果・学習済みモデル
+data/
+submissions/
+**pycache**/
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.h5
+*.hdf5
+*.keras
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.model
+*.ubj
+
+# その他の認証情報
+.secrets/
+secrets.*
+*.pem
+*.key
+.netrc
+.pypirc
