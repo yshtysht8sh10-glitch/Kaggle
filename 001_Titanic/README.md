@@ -46,7 +46,7 @@ python -m venv .venv
 
 VSCodeではkaggleフォルダーを開き、Python拡張機能の「Python: Select Interpreter」で`001_Titanic\.venv\Scripts\python.exe`を選びます。`001_Titanic/models/DecisionTree/main.py`を開いて「Run Python File in Terminal」を実行します。
 
-通常実行の出力は`submissions/submission.csv`です。再実行ではこの作業用ファイルが更新されます。提出済みの`submissions/exp001.csv`は保存用で、main.pyからは書き込みません。
+現在のmain.pyはExp003提出準備用です。max_depth=7を採用し、全891件で再学習した予測を`submissions/exp003.csv`へ新規作成します。既存ファイルがある場合はエラーで停止し、上書きしません。exp001.csvなどの過去のCSVも保持します。
 
 ## 初回実験の結果
 
@@ -131,3 +131,11 @@ analysisにexp003_cv_details.csv（70行）、exp003_cv_summary.csv（14行）�
 2026-11-28の最良はmax_depth=7、平均学習88.24%、平均検証82.71%、検証の標準偏差1.36ポイントでした。max_depth=5は平均検証81.82%、標準偏差1.60ポイント、Noneは79.35%、標準偏差3.72ポイントです。5はNoneより平均検証で2.47ポイント高く、ばらつきも小さくなりました。3〜9付近の深さ制限は比較的良い結果ですが、5が常に最良という仮説までは支持しません。
 
 Exp002のmax_depth=5は単一分割で80.45%、今回の同条件は81.82%です。分割方法が異なるため、この差をモデル改善とは解釈しません。今回の最良条件も同じCV結果から選んでいるため、独立した未知データでの確定的な性能ではありません。帯は平均±標準偏差で、信頼区間ではありません。Kaggle提出、main.pyへの適用、mainへのマージは行いません。
+
+## Exp003の提出準備
+
+CVで選んだDecisionTreeClassifier(max_depth=7, random_state=42)をmain.pyへ適用しました。特徴量・性別変換・欠損値補完・その他のパラメータは維持しています。提出時はtrain.csv全891件の中央値で補完し、全891件で再学習してtest.csvの418件を予測します。
+
+submissions/exp003.csvはPassengerId、Survivedの2列です。418行、欠損なし、乗客IDの順序一致、予測が0/1のみであることを検証済みです。生存予測143人、死亡予測275人でした。提出CSVはGit管理対象外です。Kaggleへのアップロードはユーザーが手動で行います。
+
+状態はready_to_submit、公開スコアは未記入です。CV平均学習88.2433%、平均検証82.7148%と標準偏差は従来のまま保持します。main.pyの単一分割評価（学習88.48%、検証76.54%）はCV評価と異なるため、台帳のCV結果へ上書きしません。タグtitanic-exp003は提出用モデルのコミットを指し、そのSHAは後続の台帳更新コミットで記録します。冒頭のベースライン説明と結果はExp001の履歴です。

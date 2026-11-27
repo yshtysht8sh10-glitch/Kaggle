@@ -51,8 +51,9 @@ X_valid = X_valid.fillna(train_medians)
 
 # 6. 決定木を学習する。
 # fitは特徴量と正解の組から、生存・死亡を分けるルールを学ぶ処理。
-# 指定するパラメータはrandom_stateだけで、残りはデフォルト値を使う。
-model = DecisionTreeClassifier(random_state=42)
+# Exp003の交差検証で選んだ最大深さ7を採用し、過度に細かい分岐を制限する。
+# random_state=42で再現性を保ち、その他のパラメータはデフォルト値を使う。
+model = DecisionTreeClassifier(max_depth=7, random_state=42)
 model.fit(X_train, y_train)
 
 # 7. 学習用・検証用それぞれの正解率を表示する。
@@ -64,7 +65,7 @@ valid_predictions = model.predict(X_valid)
 # 正解率 = 正しく予測した人数 / 評価した全人数。
 # accuracy_scoreは予測と正解を1人ずつ比較して、この割合を計算する。
 # 学習用だけ高く、検証用が低い場合は、学習データに合わせすぎた
-# 「過学習」の可能性がある。今回は最もシンプルな設定のまま確認する。
+# 「過学習」の可能性がある。ここでの単一分割評価はCVの評価値とは区別する。
 train_accuracy = accuracy_score(y_train, train_predictions)
 valid_accuracy = accuracy_score(y_valid, valid_predictions)
 print(f"学習用データ: {len(X_train)}行、検証用データ: {len(X_valid)}行")
@@ -89,10 +90,11 @@ test_predictions = model.predict(X_test)
 submission = pd.DataFrame(
     {"PassengerId": test["PassengerId"], "Survived": test_predictions}
 )
-# 提出済みのexp001.csvを保護するため、通常の実行結果は別名で保存する。
+# Exp003の提出用として保存する。既存の提出ファイルは上書きしない。
 submission_dir = model_dir / "submissions"
 submission_dir.mkdir(exist_ok=True)
-submission_path = submission_dir / "submission.csv"
-submission.to_csv(submission_path, index=False)
+submission_path = submission_dir / "exp003.csv"
+# mode="x"は新規作成専用。再実行で既存CSVを誤って上書きするのを防ぐ。
+submission.to_csv(submission_path, index=False, mode="x")
 print(f"提出用CSV: {submission_path}")
 print(f"列名: {submission.columns.tolist()}、行数: {len(submission)}")
