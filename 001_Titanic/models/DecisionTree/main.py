@@ -9,7 +9,7 @@ from sklearn.tree import DecisionTreeClassifier
 # 1. CSVを読み込む。
 # このファイル自身の場所を基準にすると、どのフォルダーから実行しても
 # 同じ元データを読み込める。元のCSVには書き込まない。
-model_dir = Path(__file__).resolve().parent
+model_dir = Path(__file__).resolve().parents[2]
 data_dir = model_dir / "data"
 train = pd.read_csv(data_dir / "train.csv")
 test = pd.read_csv(data_dir / "test.csv")

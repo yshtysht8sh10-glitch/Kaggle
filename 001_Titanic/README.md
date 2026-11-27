@@ -7,7 +7,7 @@
 ```powershell
 cd D:\working\kaggle\001_Titanic
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe visualize_tree.py
+.\.venv\Scripts\python.exe models/DecisionTree/visualize_tree.py
 ```
 
 main.pyと同じ分割・前処理・モデル設定で、学習用712件から検証評価時点の木を再現します。訓練データ全体での再学習は行いません。深さ・ノード数・葉数・特徴量重要度・学習と検証の正解率を表示し、analysisフォルダーに以下を保存します。
@@ -39,12 +39,12 @@ Python 3.12.10、pandas 2.2.3、scikit-learn 1.6.1で動作確認しています
 cd D:\working\kaggle\001_Titanic
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe main.py
+.\.venv\Scripts\python.exe models/DecisionTree/main.py
 ```
 
 既存の.venvを使用する場合は環境作成を省略できます。仮想環境の有効化は不要です。入力・出力パスはmain.pyの位置から解決するため、カレントディレクトリに依存しません。
 
-VSCodeではkaggleフォルダーを開き、Python拡張機能の「Python: Select Interpreter」で`001_Titanic\.venv\Scripts\python.exe`を選びます。`001_Titanic/main.py`を開いて「Run Python File in Terminal」を実行します。
+VSCodeではkaggleフォルダーを開き、Python拡張機能の「Python: Select Interpreter」で`001_Titanic\.venv\Scripts\python.exe`を選びます。`001_Titanic/models/DecisionTree/main.py`を開いて「Run Python File in Terminal」を実行します。
 
 通常実行の出力は`submissions/submission.csv`です。再実行ではこの作業用ファイルが更新されます。提出済みの`submissions/exp001.csv`は保存用で、main.pyからは書き込みません。
 
@@ -79,3 +79,24 @@ experiments.csvは1実験1行、UTF-8です。既存の12項目にgit_commit（�
 モデルを先にコミットし、そのSHAを台帳へ記録して別コミットにするため、git_commitは台帳更新コミットではなくモデル本体のコミットを指します。初回のタグはtitanic-exp001です。モデル・実行結果・台帳は同じタグを基準に対応付けます。タグ時点のgit_commit欄は未記入で、後続の台帳更新コミットで確定します。
 
 今後は実験別フォルダーを作らず、ブランチ上でmain.pyを変更します。具体的な命名規則と手順は[ルートREADME](../README.md)を参照してください。過去のモデルはコミット・タグで保存し、提出結果はローカルのsubmissionsに保管します。data、.venv、submissionsはGit管理対象外です。
+
+## モデル別の構成
+
+異なるモデルはmodels配下のフォルダーで分け、同一モデルの改善は仮説単位のGitブランチで管理します。
+
+```text
+001_Titanic/
+├── data/
+├── .venv/
+├── submissions/
+├── analysis/
+├── models/
+│   └── DecisionTree/
+│       ├── main.py
+│       └── visualize_tree.py
+├── experiments.csv
+├── requirements.txt
+└── README.md
+```
+
+DecisionTreeの入出力はコンペルートを基準に解決します。VSCodeでは既存の001_Titanic/.venvを選択します。

@@ -21,7 +21,9 @@ kaggle/
     ├── .venv/                # ローカルのみ
     ├── submissions/          # ローカルのみ
     │   └── exp001.csv        # 提出済み・上書き禁止
-    ├── main.py
+    ├── models/DecisionTree/
+    │   ├── main.py
+    │   └── visualize_tree.py
     ├── experiments.csv
     ├── requirements.txt
     └── README.md
@@ -42,7 +44,7 @@ Gitのルートはこのkaggleフォルダーです。ソースコードの実�
 git switch main
 git switch -c titanic/exp002-max-depth
 # main.pyを変更し、実行・評価する
-git add 001_Titanic/main.py 001_Titanic/README.md
+git add 001_Titanic/models/DecisionTree/main.py 001_Titanic/README.md
 git commit -m "Titanic: Limit decision tree depth"
 git rev-parse HEAD
 git tag titanic-exp002
@@ -58,3 +60,5 @@ git push origin titanic-exp002
 データ・仮想環境・提出CSV・モデルバイナリ・認証ファイルはルートの.gitignoreで全コンペ共通に除外します。認証トークンをコードや実験台帳へ書かないでください。コミット前に`git diff --cached --name-only`と`git diff --cached`で公開内容を確認します。ローカル限定ファイルはGitHubから復元できないため、必要に応じて別途保管してください。
 
 現時点では共通処理のモジュール化、MLflow、実験管理の自動化は導入しません。
+
+異なるモデルはmodels配下で分離し、同一モデルの改善は仮説単位のブランチ（例：titanic/decisiontree/exp002-max-depth）で管理します。

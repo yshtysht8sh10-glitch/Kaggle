@@ -16,7 +16,7 @@ from sklearn.tree import DecisionTreeClassifier, plot_tree
 # この分析では検証評価時点の木を調べるため、test.csvへの予測や
 # 訓練データ全体での再学習は行わない。提出済みCSVにも書き込まない。
 # ファイル自身の場所を基準にし、実行時のカレントディレクトリに依存しない。
-project_dir = Path(__file__).resolve().parent
+project_dir = Path(__file__).resolve().parents[2]
 train = pd.read_csv(project_dir / "data" / "train.csv")
 feature_columns = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare"]
 # 特徴量は予測の手がかりとなる入力、目的変数は予測したい正解である。
