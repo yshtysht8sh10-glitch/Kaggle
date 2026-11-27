@@ -115,3 +115,19 @@ max_depthを1〜10、12、15、20、Noneで比較します。その他の条件�
 この分割では深さ制限による過学習抑制の仮説を支持します。ただし、同じ179件の検証データを使って14条件から選んだ結果で、選択による楽観的な評価の可能性があります。独立したテストや交差検証なしに汎化性能の改善を断言しません。Kaggle未提出で、main.pyへの自動適用も行いません。同率の場合は浅い設定を選びます。
 
 実験の仮説・最良max_depth・要約はexperiments.csvのparametersおよびnotesへ記録し、git_commitは実装と結果説明のコミットを指します。既存のExp001行は保持します。
+
+
+## Exp003：Stratified 5-Fold CVによる深さの選択
+
+```powershell
+cd D:\working\kaggle\001_Titanic
+.\.venv\Scripts\python.exe models/DecisionTree/experiment_cross_validation.py
+```
+
+親実験は002です。全891件をStratifiedKFold(n_splits=5, shuffle=True, random_state=42)で分割し、生存・死亡の割合を各Foldで可能な限りそろえます。分割を一度だけ作成し、Exp002と同じ14種類のmax_depthで共有します。各Foldでは新しいモデルを生成し、学習用だけの中央値で欠損値を補完します。全員が検証用に1回ずつ登場します。処理はforループで明示しています。
+
+analysisにexp003_cv_details.csv（70行）、exp003_cv_summary.csv（14行）、exp003_cv_accuracy.png、exp003_cv_folds.png、exp003_cv_boxplot.png、exp003_comparison.pngを出力します。標準偏差はddof=0、平均は5個のFold正解率の単純平均です。同率なら浅い設定を選びます。Exp002の結果CSVがなければ既存のexperiment_max_depth.pyを実行して再現します。生成ファイルはGit管理対象外です。
+
+2026-11-28の最良はmax_depth=7、平均学習88.24%、平均検証82.71%、検証の標準偏差1.36ポイントでした。max_depth=5は平均検証81.82%、標準偏差1.60ポイント、Noneは79.35%、標準偏差3.72ポイントです。5はNoneより平均検証で2.47ポイント高く、ばらつきも小さくなりました。3〜9付近の深さ制限は比較的良い結果ですが、5が常に最良という仮説までは支持しません。
+
+Exp002のmax_depth=5は単一分割で80.45%、今回の同条件は81.82%です。分割方法が異なるため、この差をモデル改善とは解釈しません。今回の最良条件も同じCV結果から選んでいるため、独立した未知データでの確定的な性能ではありません。帯は平均±標準偏差で、信頼区間ではありません。Kaggle提出、main.pyへの適用、mainへのマージは行いません。
