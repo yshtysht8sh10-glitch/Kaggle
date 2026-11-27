@@ -100,3 +100,18 @@ experiments.csvは1実験1行、UTF-8です。既存の12項目にgit_commit（�
 ```
 
 DecisionTreeの入出力はコンペルートを基準に解決します。VSCodeでは既存の001_Titanic/.venvを選択します。
+
+## Exp002：最大深さによる過学習抑制
+
+```powershell
+cd D:\working\kaggle\001_Titanic
+.\.venv\Scripts\python.exe models/DecisionTree/experiment_max_depth.py
+```
+
+max_depthを1〜10、12、15、20、Noneで比較します。その他の条件はExp001と同一です。実際の深さ・ノード数・葉数・両正解率・差をコンソールとanalysis/exp002_max_depth_results.csvへ出力します。正解率、正解率の差、複雑さ、最良モデルの木をexp002_accuracy.png、exp002_accuracy_gap.png、exp002_complexity.png、exp002_best_tree.pngとして同じanalysisに保存します。出力はGit管理対象外です。
+
+2026-11-28の結果ではmax_depth=5が最良で、学習正解率85.81%、検証正解率80.45%、差5.37ポイントでした。実際の深さ5、47ノード、24葉です。Exp001の97.89%・75.98%と比較して、検証正解率は4.47ポイント改善しました。制限なしの条件はExp001の結果を再現しています。
+
+この分割では深さ制限による過学習抑制の仮説を支持します。ただし、同じ179件の検証データを使って14条件から選んだ結果で、選択による楽観的な評価の可能性があります。独立したテストや交差検証なしに汎化性能の改善を断言しません。Kaggle未提出で、main.pyへの自動適用も行いません。同率の場合は浅い設定を選びます。
+
+実験の仮説・最良max_depth・要約はexperiments.csvのparametersおよびnotesへ記録し、git_commitは実装と結果説明のコミットを指します。既存のExp001行は保持します。
