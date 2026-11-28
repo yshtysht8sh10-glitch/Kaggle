@@ -53,7 +53,11 @@ X_valid = X_valid.fillna(train_medians)
 # fitは特徴量と正解の組から、生存・死亡を分けるルールを学ぶ処理。
 # Exp003の交差検証で選んだ最大深さ7を採用し、過度に細かい分岐を制限する。
 # random_state=42で再現性を保ち、その他のパラメータはデフォルト値を使う。
-model = DecisionTreeClassifier(max_depth=7, random_state=42)
+model = DecisionTreeClassifier(
+    max_depth=7,
+    min_samples_leaf=7,
+    random_state=42
+)
 model.fit(X_train, y_train)
 
 # 7. 学習用・検証用それぞれの正解率を表示する。
@@ -93,7 +97,7 @@ submission = pd.DataFrame(
 # Exp003の提出用として保存する。既存の提出ファイルは上書きしない。
 submission_dir = model_dir / "submissions"
 submission_dir.mkdir(exist_ok=True)
-submission_path = submission_dir / "exp003.csv"
+submission_path = submission_dir / "exp004.csv"
 # mode="x"は新規作成専用。再実行で既存CSVを誤って上書きするのを防ぐ。
 submission.to_csv(submission_path, index=False, mode="x")
 print(f"提出用CSV: {submission_path}")
